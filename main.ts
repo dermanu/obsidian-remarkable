@@ -118,7 +118,8 @@ export default class MyPlugin extends Plugin {
     }
 
     async callReSnap(landscape: boolean) {
-        const { reSnapPath, rmAddress } = this.settings;
+        var { reSnapPath, rmAddress } = this.settings;
+        var reSnapPath = '"' + reSnapPath + '"';
         const { spawn } = require('child_process');
 
         let vaultAbsPath;
