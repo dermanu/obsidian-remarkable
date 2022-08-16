@@ -1,6 +1,8 @@
-## Obsidian & reMarkable
+## Obsidian & reMarkable (WINDOWS 11 version)
+**This version should run on Windows 11. However it was not tested extensively yet.**
 
 This a plugin integrating the [reMarkable](https://remarkable.com) paper tablet with the note-taking software [Obsidian](https://obsidian.md). More specifically, it takes a screenshot from your reMarkable (via USB or WiFi, however you prefer), saves it as a .png files in your Vault, optionally post-processes it, and inserts the image in your currently open note.
+
 
 ![Preview of the plugin functionality](https://user-images.githubusercontent.com/669103/123702539-8c2c2f80-d863-11eb-952d-acbb8df0a146.gif)
 
@@ -10,6 +12,11 @@ This a plugin integrating the [reMarkable](https://remarkable.com) paper tablet 
 #### Prerequisites
 
 - Set up [reSnap](https://github.com/cloudsftp/reSnap) on your reMarkable tablet and on your computer.
+- ReSnap requires following additional software to run under Windows:
+  - git (https://gitforwindows.org/ -> Make sure to install it under 'C:\Program Files\Git' as the path is still hardcoded in the code... upsi)
+  - ffmpeg (https://ffmpeg.org/download.html - choose one of the windows builds)
+  - lz4 (https://github.com/lz4/lz4/releases - choose a windows build - 32 or 64 bit)
+- Add the folder location (wherever you unzipped/installed those files of '\ffmpeg\bin', '\lz4' and '\Program Files\Git\usr\bin' to your environment variables (User variables -> Path -> New)
 - Set up your reMarkable so you have passwordless access over SSH, see https://www.reddit.com/r/RemarkableTablet/comments/78u90n/passwordless_ssh_setup_for_remarkable_tablet/
 - Install and activate this plugin in Obsidian, either directly or via the [Obsidian42 BRAT plugin](https://github.com/TfTHacker/obsidian42-brat)
 
