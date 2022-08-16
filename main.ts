@@ -93,7 +93,11 @@ export default class MyPlugin extends Plugin {
             'stdout': ''
         };
         return new Promise(function (resolve, reject) {
-            const process = spawn(executable_path, args);
+             delete spawn.platform;
+             spawn.platform = 'linux';
+             const process = spawn(executable_path.concat(args), {
+                   shell: 'C:/Program Files/Git/git-bash.exe',
+                   platform: 'linux'});
             process.stdout.on('data', (data: string) => { outputs.stdout += data; });
             process.stderr.on('data', (data: string) => { outputs.stderr += data; });
 
@@ -109,6 +113,7 @@ export default class MyPlugin extends Plugin {
             process.on('error', function (err: string) {
                 reject(err);
             });
+	    process.platform = 'win32';
         });
     }
 
@@ -130,21 +135,21 @@ export default class MyPlugin extends Plugin {
         const now = moment();
         const drawingFileName = `rM drawing ${now.format("YYYY-MM-DD-HH.mm.ss")}.png`;
         const absOutputFolderPath = adapter.getFullRealPath(this.settings.outputPath);
-        const drawingFilePath = path.join(absOutputFolderPath, drawingFileName);
+        const drawingFilePath = '"' + path.join(absOutputFolderPath, drawingFileName) + '"';
 
-        let args = ['-o', drawingFilePath, '-s', rmAddress];
-        if(landscape) {
-            args = args.concat(['-l']);
-        }
-
+        var args = ' -o ' + drawingFilePath + ' -s ' + rmAddress + ' -n';
+        if (landscape) {
+		args = args + ' -l';
+	}
         const { stderr, stdout } = await this.runProcess(reSnapPath, args);
         return { drawingFilePath, drawingFileName };
     }
 
     async postprocessDrawing(drawingFilePath: string) {
-        const { postprocessor } = this.settings;
+        var { postprocessor } = this.settings;
+	    postprocessor = 'py "' + postprocessor + '" ';
         if (postprocessor) {
-            const args = [drawingFilePath];
+            const args = drawingFilePath;
             const { stderr, stdout } = await this.runProcess(postprocessor, args);
         }
         return true;
